@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/like/{id}', ['uses' => 'LikeController@show']);
+Route::get('/like/add{fk_user}-{fk_video}', ['uses' => 'LikeController@show']);
+Route::get('/like/remove{fk_user}-{fk_video}', ['uses' => 'LikeController@show']);
