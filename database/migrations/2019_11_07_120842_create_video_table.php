@@ -20,7 +20,7 @@ class CreateVideoTable extends Migration
             $table->time('duration')->nullable(false);
             $table->boolean('public')->nullable(false);
             $table->integer('fk_owner')->nullable(false);
-            $table->timestamp('video_at')->useCurrent();
+            $table->timestamps();
         });
     }
 
