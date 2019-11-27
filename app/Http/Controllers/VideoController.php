@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Video;
+use DateTime;
 use Illuminate\Http\Request;
+
+use function PHPSTORM_META\type;
 
 class VideoController extends Controller
 {
@@ -16,7 +19,6 @@ class VideoController extends Controller
     {
         $videos = Video::latest()->paginate(5);
         return view('videos.index', compact('videos'))->with('i', (request()->input('page', 1)-1)*5);
-        //return view('videos.index');
     }
 
     /**
@@ -40,12 +42,19 @@ class VideoController extends Controller
         $request->validate([
             'name' => 'required',
             'video' => 'required',
-            'duration' => 'required',
-            'public' => 'required',
-            'fk_owner' => 'required',
+            // 'duration' => 'required',
+            // 'public' => 'required',
+            // 'fk_owner' => 'required',
         ]);
 
-        Video::create($request->all());
+        $input['video'] = time() . '.' . $request->video->getClientOriginalExtension();
+        $request->video->move(public_path('videos-gallery'), $input['video']);
+
+        $input['name'] = $request->name;
+        $input['public'] = 1;
+        $input['fk_owner'] = 1;
+
+        Video::create($input);
 
         return redirect()->route('videos.index')->with('success', 'Video created successfully');
     }
@@ -58,7 +67,7 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-        return view('videos.show', compact($video));
+        //return view('videos.show', compact($video));
     }
 
     /**
@@ -69,7 +78,7 @@ class VideoController extends Controller
      */
     public function edit(Video $video)
     {
-        return view('videos.edit', compact($video));
+        //return view('videos.edit', compact($video));
     }
 
     /**
@@ -81,17 +90,17 @@ class VideoController extends Controller
      */
     public function update(Request $request, Video $video)
     {
-        $request->validate([
-            'name' => 'required',
-            'video' => 'required',
-            'duration' => 'required',
-            'public' => 'required',
-            'fk_owner' => 'required',
-        ]);
+        // $request->validate([
+        //     'name' => 'required',
+        //     'video' => 'required',
+        //     'duration' => 'required',
+        //     'public' => 'required',
+        //     'fk_owner' => 'required',
+        // ]);
 
-        $video->update($request->all());
+        // $video->update($request->all());
 
-        return redirect()->route('videos.index')->with('success', 'Video updated successfully');
+        // return redirect()->route('videos.index')->with('success', 'Video updated successfully');
     }
 
     /**
@@ -102,6 +111,7 @@ class VideoController extends Controller
      */
     public function destroy(Video $video)
     {
+        echo $video;
         $video->delete();
 
         return redirect()->route('videos.index')->with('success', 'Video deleted successfully');
