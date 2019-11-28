@@ -17,6 +17,7 @@ class CreateLikeTable extends Migration
             $table->biginteger('fk_user');
             $table->bigInteger('fk_video');
             $table->unique(array('fk_user', 'fk_video'));
+            $table->timestamps();
         });
     }
 

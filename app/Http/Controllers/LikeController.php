@@ -20,25 +20,28 @@ class LikeController extends Controller
 
     public function destroy($fk_user, $fk_video)
     {
-      Like::where('fk_user', $fk_user, 'fk_video', $fk_video)->delete();
+      Like::where('fk_user', $fk_user)->where('fk_video', $fk_video)->delete();
+      return view('index');
     }
 
-    public function store($fk_user, $fk_video)
+    public static function store($fk_user, $fk_video)
     {
       $like = new Like();
       $like->fk_user = $fk_user;
       $like->fk_video = $fk_video;
       if($like->save())
       {
-        return true;
+        return view('like', ['name' => Like::where('fk_user', $fk_user)->firstOrFail()]);
       }
+      return view('index');
     }
 
     public function update(Request $request, Like $like)
     {
       if($like->fill($request->all())->save())
       {
-        return true;
+        return view('like', ['name' => Like::where('fk_user', $fk_user)->firstOrFail()]);
       }
+      return view('index');
     }
 }
