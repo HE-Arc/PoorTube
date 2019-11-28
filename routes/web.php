@@ -21,5 +21,6 @@
 
 // Route::resource('/', 'VideoController');
 
+Route::resource('likes', 'LikeController');
 Route::redirect('/', 'videos');
 Route::resource('videos', 'VideoController');

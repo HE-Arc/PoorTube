@@ -1,5 +1,5 @@
 @extends('videos.layout')
- 
+
 @section('content')
     <!-- <div class="row">
         <div class="col-lg-12 margin-tb">
@@ -18,16 +18,16 @@
             <a class="navbar-item" href="">
               <img src="/icon/logo.png" width="112" height="28">
             </a>
-        
+
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
             </a>
           </div>
-        
+
           <div id="navbarBasicExample" class="navbar-menu">
-                   
+
             <div class="navbar-end">
               <div class="navbar-item">
                 <div class="buttons">
@@ -46,7 +46,7 @@
           </div>
         </nav>
       <!-- END NAVBAR -->
-   
+
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
@@ -72,9 +72,13 @@
               <p class="subtitle">
                 Gaël Christe
               </p>
-              <a href="" ><i class="far fa-heart icon is-medium"></i></a>
+              <form class="" action="{{ route('likes.store') }}" method="post">
+                <!--<a href="" ><i class="far fa-heart icon is-medium"></i></a>-->
+                <input type="hidden" name="video_id" value="{{ $video->id }}">
+                <input type="submit" name="" value="salut">
+              </form>
               <a href="" ><i class="far fa-comment icon is-medium"></i></a>
-              
+
             </div>
           </div>
           @endforeach
@@ -82,7 +86,7 @@
         </div>
       </section>
       <!-- END VIDEOS -->
-   
+
     <!-- <table class="table table-bordered">
         <tr>
             <th>No</th>
@@ -99,7 +103,7 @@
             <td>{{ $video->name }}</td>
             <td>
             <video width="320" height="240" autoplay>
-                <source type="video/mp4" src="/videos-gallery/{{ $video->video }}">            
+                <source type="video/mp4" src="/videos-gallery/{{ $video->video }}">
             </video>
         </td>
             <td>{{ $video->duration }}</td>
@@ -107,21 +111,21 @@
             <td>{{ $video->fk_owner }}</td>
             <td>
                 <form action="{{ route('videos.destroy',$video->id) }}" method="POST">
-   
+
                     <a class="btn btn-info" href="{{ route('videos.show',$video->id) }}">Show</a>
-    
+
                     <a class="btn btn-primary" href="{{ route('videos.edit',$video->id) }}">Edit</a>
-   
+
                     @csrf
                     @method('DELETE')
-      
+
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
-        </tr> 
+        </tr>
         @endforeach
     </table>-->
-  
+
     {!! $videos->links() !!}
-      
+
 @endsection
