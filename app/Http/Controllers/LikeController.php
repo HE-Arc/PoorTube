@@ -38,7 +38,8 @@ class LikeController extends Controller
         $input['video_id'] = $request->video_id;
         $input['user_id'] = Auth::id();
         Like::create($input);
-        return redirect()->route('videos.index')->with('success', 'Video created successfully');
+        //return redirect()->route('videos.index')->with('success', 'Video created successfully');
+        return Redirect::back();
     }
 
     /**

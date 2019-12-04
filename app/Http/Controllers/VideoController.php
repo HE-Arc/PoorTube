@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Video;
+use App\Like;
 use DateTime;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,8 @@ class VideoController extends Controller
     public function index()
     {
         $videos = Video::latest()->paginate(5);
-        return view('videos.index', compact('videos'))->with('i', (request()->input('page', 1)-1)*5);
+        $likes = Like::all();
+        return view('videos.index', compact(['videos', 'likes']))->with('i', (request()->input('page', 1)-1)*5);
     }
 
     /**
@@ -67,6 +69,8 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
+      echo "salut";
+      return redirect()->route('videos.index')->with('success', 'Video created successfully');
         //return view('videos.show', compact($video));
     }
 
@@ -115,5 +119,13 @@ class VideoController extends Controller
         $video->delete();
 
         return redirect()->route('videos.index')->with('success', 'Video deleted successfully');
+    }
+
+    public function likeVideo(Request $request) {
+      echo 'salut';
+      $input['video_id'] = $request->video_id;
+      $input['user_id'] = Auth::id();
+      Like::create($input);
+      return redirect()->route('videos.index')->with('success', 'Video created successfully');
     }
 }

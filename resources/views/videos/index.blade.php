@@ -72,12 +72,12 @@
               <p class="subtitle">
                 Gaël Christe
               </p>
-              <form class="" action="{{ route('likes.store') }}" method="post">
+              <form action="{{ route('videos.likeVideo') }}" method="post">
                 <!--<a href="" ><i class="far fa-heart icon is-medium"></i></a>-->
                 <input type="hidden" name="video_id" value="{{ $video->id }}">
                 <input type="submit" name="" value="salut">
               </form>
-              <a href="" ><i class="far fa-comment icon is-medium"></i></a>
+              <a href=""><i class="far fa-comment icon is-medium"></i></a>
 
             </div>
           </div>
