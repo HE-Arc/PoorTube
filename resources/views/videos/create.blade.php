@@ -68,7 +68,7 @@
                 <button type="submit" class="button is-link">Submit</button>
             </div>
             <div class="control">
-                <button class="button is-link is-light" href="{{ route('videos.index') }}">Cancel</button>
+                <a class="button is-link is-light" href="{{ url()->previous() }}">Cancel</a>
             </div>
         </div>
 
