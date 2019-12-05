@@ -121,11 +121,11 @@ class VideoController extends Controller
         return redirect()->route('videos.index')->with('success', 'Video deleted successfully');
     }
 
-    public function likeVideo(Request $request) {
+    public function like(Request $request) {
       echo 'salut';
       $input['video_id'] = $request->video_id;
       $input['user_id'] = Auth::id();
       Like::create($input);
-      return redirect()->route('videos.index')->with('success', 'Video created successfully');
+      return redirect()->route('videos.index')->with('success', 'liked successfully');
     }
 }

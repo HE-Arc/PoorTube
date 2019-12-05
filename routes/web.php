@@ -23,5 +23,5 @@
 
 //Route::resource('likes', 'LikeController');
 Route::redirect('/', 'videos');
-Route::get('likeVideo', 'VideoController@likeVideo');
+Route::post('videos/{id}/like', 'VideoController@like')->name('videos.like');
 Route::resource('videos', 'VideoController');
