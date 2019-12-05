@@ -70,13 +70,14 @@
         <p class="subtitle">
           Gaël Christe
         </p>
+        <?php
         $exist = false;
         foreach ($likes as $like) {
           if($like->video_id == $video->id && $like->user_id == Auth::id()){
             $exist = true;
           }
         }
-         ?>
+        ?>
         @if ( $exist == true )
         <a href="{{ route('videos.like', $video->id) }}" ><i class="fas fa-heart icon is-medium"></i></a>
         @else
