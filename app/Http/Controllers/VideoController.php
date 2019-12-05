@@ -122,7 +122,7 @@ class VideoController extends Controller
     }
 
     public function like(Request $request) {
-      echo 'salut';
+      //echo 'salut';
       $input['video_id'] = $request->video_id;
       $input['user_id'] = Auth::id();
       Like::create($input);
