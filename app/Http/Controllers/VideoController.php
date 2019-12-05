@@ -94,17 +94,6 @@ class VideoController extends Controller
      */
     public function update(Request $request, Video $video)
     {
-        // $request->validate([
-        //     'name' => 'required',
-        //     'video' => 'required',
-        //     'duration' => 'required',
-        //     'public' => 'required',
-        //     'fk_owner' => 'required',
-        // ]);
-
-        // $video->update($request->all());
-
-        // return redirect()->route('videos.index')->with('success', 'Video updated successfully');
     }
 
     /**
@@ -122,11 +111,26 @@ class VideoController extends Controller
     }
 
     public function like($video_id) {
-      //echo 'salut';
       $input['video_id'] = $video_id;
       //$input['user_id'] = Auth::id();
       $input['user_id'] = 1;
-      Like::create($input);
-      return redirect()->route('videos.index')->with('success', 'liked successfully');
+      if(Like::where('user_id', '=', $input['user_id'])->where('video_id', '=', $input['video_id'])->exists()) {
+        Like::where('user_id', '=', $input['user_id'])->where('video_id', '=', $input['video_id'])->delete();
+        return redirect()->route('videos.index')->with('success', 'disliked successfully');
+      } else {
+        Like::create($input);
+        return redirect()->route('videos.index')->with('success', 'liked successfully');
+      }
+    }
+
+    public static function doYouLike($video_id) {
+      $input['video_id'] = $video_id;
+      //$input['user_id'] = Auth::id();
+      $input['user_id'] = 1;
+      if(Like::where('user_id', '=', $input['user_id'])->where('video_id', '=', $input['video_id'])->exists()) {
+        return 1;
+      } else {
+        return 0;
+      }
     }
 }
