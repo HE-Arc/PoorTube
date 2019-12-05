@@ -59,7 +59,7 @@ class VideoController extends Controller
 
         Video::create($input);
 
-        return redirect()->route('videos.index')->with('success', 'Video created successfully');
+        return redirect()->route('videos.index');
     }
 
     /**
@@ -71,7 +71,7 @@ class VideoController extends Controller
     public function show(Video $video)
     {
       echo "salut";
-      return redirect()->route('videos.index')->with('success', 'Video created successfully');
+      return redirect()->route('videos.index');
         //return view('videos.show', compact($video));
     }
 
@@ -108,30 +108,19 @@ class VideoController extends Controller
         echo $video;
         $video->delete();
 
-        return redirect()->route('videos.index')->with('success', 'Video deleted successfully');
+        return redirect()->route('videos.index');
     }
 
-    public function like($video_id) {
+    public function like($video_id, $user_id) {
       $input['video_id'] = $video_id;
       //$input['user_id'] = Auth::id();
-      $input['user_id'] = 1;
+      $input['user_id'] = $user_id;
       if(Like::where('user_id', '=', $input['user_id'])->where('video_id', '=', $input['video_id'])->exists()) {
         Like::where('user_id', '=', $input['user_id'])->where('video_id', '=', $input['video_id'])->delete();
-        return redirect()->route('videos.index')->with('success', 'disliked successfully');
+        return redirect()->route('videos.index');
       } else {
         Like::create($input);
-        return redirect()->route('videos.index')->with('success', 'liked successfully');
-      }
-    }
-
-    public static function doYouLike($video_id) {
-      $input['video_id'] = $video_id;
-      //$input['user_id'] = Auth::id();
-      $input['user_id'] = 1;
-      if(Like::where('user_id', '=', $input['user_id'])->where('video_id', '=', $input['video_id'])->exists()) {
-        return 1;
-      } else {
-        return 0;
+        return redirect()->route('videos.index');
       }
     }
 }

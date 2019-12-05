@@ -15,7 +15,7 @@
 //     return view('index');
 // });
 
-Auth::routes();
+// Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
@@ -23,5 +23,5 @@ Auth::routes();
 
 //Route::resource('likes', 'LikeController');
 Route::redirect('/', 'videos');
-Route::get('videos/{id}/like', 'VideoController@like')->name('videos.like'); //FIXME pas bien avec get voir avec post quand ce sera fini
+Route::get('videos/{id}/{id}/like', 'VideoController@like')->name('videos.like'); //FIXME pas bien avec get voir avec post quand ce sera fini
 Route::resource('videos', 'VideoController');
