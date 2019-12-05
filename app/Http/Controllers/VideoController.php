@@ -17,8 +17,9 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $videos = Video::latest()->paginate(5);
-        return view('videos.index', compact('videos'))->with('i', (request()->input('page', 1)-1)*5);
+        $videos = Video::all();//Video::latest()->paginate(5); 
+        // Pour la version pagination ajouter : {!! $videos->links() !!} dans index.blade.php après END VIDEOS
+        return view('videos.index', compact('videos'));//->with('i', (request()->input('page', 1)-1)*5);
     }
 
     /**
@@ -51,7 +52,7 @@ class VideoController extends Controller
         $request->video->move(public_path('videos-gallery'), $input['video']);
 
         $input['name'] = $request->name;
-        $input['public'] = 1;
+        $input['public'] = 1 ; //$request->input("public");
         $input['fk_owner'] = 1;
 
         Video::create($input);
