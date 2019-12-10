@@ -15,6 +15,10 @@
 //     return view('index');
 // });
 
+if (App::environment('production')) {
+    URL::forceScheme('https');
+}
+
 Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');

@@ -6,6 +6,7 @@ use App\Video;
 use App\Like;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use function PHPSTORM_META\type;
 
@@ -53,13 +54,18 @@ class VideoController extends Controller
         $input['video'] = time() . '.' . $request->video->getClientOriginalExtension();
         $request->video->move(public_path('videos-gallery'), $input['video']);
 
-        $input['name'] = $request->name;
-        $input['public'] = 1 ; //$request->input("public");
-        $input['fk_owner'] = 1;
+        if(Auth::check())
+        {
+          $input['name'] = $request->name;
+          $input['public'] = 1 ; //$request->input("public");
+          $input['fk_owner'] = Auth::id();
 
-        Video::create($input);
+          Video::create($input);
 
-        return redirect()->route('videos.index')->with('success', 'Video created successfully');
+          return redirect()->route('videos.index')->with('success', 'Video created successfully');
+        }
+        
+        return redirect()->route('videos.index')->with('success', 'You must be connected');
     }
 
     /**
