@@ -17,12 +17,13 @@
   </div>
 
   <div id="navbarBasicExample" class="navbar-menu">
+
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
           @if (Route::has('login'))
-          <a class="button is-light" href="{{ route('videos.allVideos') }}">
-            Your videos
+          <a class="button is-light" href="{{ route('videos.index', Auth::id()) }}">
+            All videos
           </a>
           @auth
           <a class="button is-primary" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -64,7 +65,7 @@
 <section class="articles">
   <div class="column is-8 is-offset-2">
 
-    @foreach ($videos as $video)
+    @foreach ($myVideos as $video)
 
     <!-- VIDEO DISPLAY -->
     <div class="card article">
