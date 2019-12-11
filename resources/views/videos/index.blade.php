@@ -17,13 +17,22 @@
   </div>
 
   <div id="navbarBasicExample" class="navbar-menu">
-
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
           @if (Route::has('login'))
+          <a class="button is-light" href="{{ route('videos.allVideos') }}">
+            Your videos
+          </a>
           @auth
-          <a href="">Logout</a><!-- TODO -->
+          <a class="button is-primary" href="{{ route('logout') }}" onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+            {{ __('Logout') }}
+          </a>
+
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+          </form>
           @else
           <a href="{{ route('login') }}" class="button is-light">
             Log in
@@ -68,20 +77,21 @@
           Your browser does not support the video tag.
         </video>
         <p class="subtitle">
-          Gaël Christe
+          <!-- Gaël Christe -->
+          {{ $video->author }}
         </p>
         <?php
         $exist = false;
         foreach ($likes as $like) {
-          if($like->video_id == $video->id && $like->user_id == Auth::id()){
+          if ($like->video_id == $video->id && $like->user_id == Auth::id()) {
             $exist = true;
           }
         }
         ?>
         @if ( $exist == true )
-        <a href="{{ route('videos.like', $video->id) }}" ><i class="fas fa-heart icon is-medium"></i></a>
+        <a href="{{ route('videos.like', $video->id) }}"><i class="fas fa-heart icon is-medium"></i></a>
         @else
-        <a href="{{ route('videos.like', $video->id) }}" ><i class="far fa-heart icon is-medium"></i></a>
+        <a href="{{ route('videos.like', $video->id) }}"><i class="far fa-heart icon is-medium"></i></a>
         @endif
         <a href=""><i class="far fa-comment icon is-medium"></i></a>
 

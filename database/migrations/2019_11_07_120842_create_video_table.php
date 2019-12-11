@@ -19,6 +19,7 @@ class CreateVideoTable extends Migration
             $table->string('video')->nullable(false);
             $table->boolean('public')->nullable(false);
             $table->integer('fk_owner')->nullable(false);
+            $table->string('author')->nullable(false);
             $table->timestamps();
         });
     }

@@ -6,6 +6,8 @@ use App\Video;
 use App\Like;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use function PHPSTORM_META\type;
 
@@ -45,21 +47,24 @@ class VideoController extends Controller
         $request->validate([
             'name' => 'required',
             'video' => 'required',
-            // 'duration' => 'required',
-            // 'public' => 'required',
-            // 'fk_owner' => 'required',
         ]);
 
         $input['video'] = time() . '.' . $request->video->getClientOriginalExtension();
         $request->video->move(public_path('videos-gallery'), $input['video']);
 
-        $input['name'] = $request->name;
-        $input['public'] = 1 ; //$request->input("public");
-        $input['fk_owner'] = 1;
+        if(Auth::check())
+        {
+          $input['name'] = $request->name;
+          $input['public'] = 1 ; //$request->input("public");
+          $input['fk_owner'] = Auth::id();
+          $input['author'] = Auth::user()->name;
 
-        Video::create($input);
+          Video::create($input);
 
-        return redirect()->route('videos.index')->with('success', 'Video created successfully');
+          return redirect()->route('videos.index')->with('success', 'Video created successfully');
+        }
+        
+        return redirect()->route('videos.index')->with('success', 'You must be connected');
     }
 
     /**
@@ -70,9 +75,22 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-      echo "salut";
       return redirect()->route('videos.index')->with('success', 'Video created successfully');
         //return view('videos.show', compact($video));
+    }
+
+    public function allVideos()
+    {
+      // $myVideos = DB::table('video')->where('fk_owner', (string)Auth::id());
+      // die((string)$myVideos);
+      if(Auth::check())
+      {
+        $myVideos = DB::select('select * from video where fk_owner = ?', [Auth::id()]);
+        $likes = Like::all();
+        return view('videos.myvideo', compact(['myVideos', 'likes']));//->with('i', (request()->input('page', 1)-1)*5);
+      }
+
+      return redirect()->route('videos.index')->with('success', 'you must be connected');      
     }
 
     /**
@@ -112,26 +130,36 @@ class VideoController extends Controller
     }
 
     public function like($video_id) {
-      $input['video_id'] = $video_id;
-      //$input['user_id'] = Auth::id();
-      $input['user_id'] = 1;
-      if(Like::where('user_id', '=', $input['user_id'])->where('video_id', '=', $input['video_id'])->exists()) {
-        Like::where('user_id', '=', $input['user_id'])->where('video_id', '=', $input['video_id'])->delete();
-        return redirect()->route('videos.index')->with('success', 'disliked successfully');
-      } else {
-        Like::create($input);
-        return redirect()->route('videos.index')->with('success', 'liked successfully');
+      if(Auth::check())
+      {
+        $input['video_id'] = $video_id;
+        $input['user_id'] = Auth::id();
+        if(Like::where('user_id', '=', $input['user_id'])->where('video_id', '=', $input['video_id'])->exists()) {
+          Like::where('user_id', '=', $input['user_id'])->where('video_id', '=', $input['video_id'])->delete();
+          return back()->with('success', 'disliked successfully');
+        } else {
+          Like::create($input);
+          return back()->with('success', 'liked successfully');
+        }
       }
+
+      return back()->with('success', 'you must be connected');//redirect()->route('videos.index')->with('success', 'you must be connected');
+      
     }
 
-    public static function doYouLike($video_id) {
-      $input['video_id'] = $video_id;
-      //$input['user_id'] = Auth::id();
-      $input['user_id'] = 1;
-      if(Like::where('user_id', '=', $input['user_id'])->where('video_id', '=', $input['video_id'])->exists()) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
+    // public static function doYouLike($video_id) {
+    //   // TODO look if id is checked
+    //   if(Auth::check())
+    //   {
+    //     $input['video_id'] = $video_id;
+    //     //$input['user_id'] = Auth::id();
+    //     $input['user_id'] = Auth::id();
+    //     if(Like::where('user_id', '=', $input['user_id'])->where('video_id', '=', $input['video_id'])->exists()) {
+    //       return 1;
+    //     } else {
+    //       return 0;
+    //     }
+    //   }
+    //   return 0;
+    // }
 }
