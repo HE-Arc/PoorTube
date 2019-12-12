@@ -20,7 +20,8 @@ class VideoController extends Controller
      */
     public function index()
     {
-        $videos = Video::all();//Video::latest()->paginate(5);
+        //$videos = Video::all();//Video::latest()->paginate(5);
+        $videos = DB::select('SELECT * from video order by created_at DESC');
         // Pour la version pagination ajouter : {!! $videos->links() !!} dans index.blade.php après END VIDEOS
         $likes = Like::all();
         return view('videos.index', compact(['videos', 'likes']));//->with('i', (request()->input('page', 1)-1)*5);
@@ -64,7 +65,7 @@ class VideoController extends Controller
           return redirect()->route('videos.index')->with('success', 'Video created successfully');
         }
         
-        return redirect()->route('videos.index')->with('success', 'You must be connected');
+        return redirect()->route('videos.index')->with('warning', 'You must be connected');
     }
 
     /**
@@ -90,7 +91,7 @@ class VideoController extends Controller
         return view('videos.myvideo', compact(['myVideos', 'likes']));//->with('i', (request()->input('page', 1)-1)*5);
       }
 
-      return redirect()->route('videos.index')->with('success', 'you must be connected');      
+      return redirect()->route('videos.index')->with('warning', 'you must be connected');      
     }
 
     /**
@@ -123,10 +124,10 @@ class VideoController extends Controller
      */
     public function destroy(Video $video)
     {
-        echo $video;
         $video->delete();
-
-        return redirect()->route('videos.index')->with('success', 'Video deleted successfully');
+        $myVideos = DB::select('select * from video where fk_owner = ?', [Auth::id()]);
+        $likes = Like::all();
+        return view('videos.myvideo', compact(['myVideos', 'likes']))->with('success', 'Video deleted successfully');
     }
 
     public function like($video_id) {
@@ -143,7 +144,7 @@ class VideoController extends Controller
         }
       }
 
-      return back()->with('success', 'you must be connected');//redirect()->route('videos.index')->with('success', 'you must be connected');
+      return back()->with('warning', 'you must be connected');//redirect()->route('videos.index')->with('success', 'you must be connected');
       
     }
 
