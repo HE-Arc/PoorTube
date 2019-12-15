@@ -7,6 +7,8 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
 </head>
 
 <body>
@@ -25,7 +27,7 @@
             </div>
             @endif
 
-            <form action="{{ route('videos.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('store') }}" method="POST" enctype="multipart/form-data">
                 {!! csrf_field() !!}
                 <div class="field">
                     <label class="label">Name</label>
@@ -36,7 +38,7 @@
                 <div class="field">
                     <div class="control">
                         <strong>Video:</strong>
-                        <div class="file">
+                        <div id="file" class="file has-name">
                             <label class="file-label">
                                 <input class="file-input" type="file" name="video">
                                 <span class="file-cta">
@@ -47,9 +49,15 @@
                                         Choose a file…
                                     </span>
                                 </span>
+                                <span class="file-name">No file selected</span>
                             </label>
                         </div>
                     </div>
+                </div>
+                <div class="progress-bar">
+                    <progress class="progress is-success" id="bar" value="0" max="100" style="display:none">
+                        0%
+                    </progress>
                 </div>
                 <div class="field">
                     <div class="control">
@@ -70,7 +78,6 @@
             </form>
         </div>
     </div>
-
+    <script src="/js/video-upload.js"></script>
 </body>
-
 </html>

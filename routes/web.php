@@ -29,4 +29,9 @@ Auth::routes();
 Route::redirect('/', 'videos');
 Route::get('videos/{id}/like', 'VideoController@like')->name('videos.like'); //FIXME pas bien avec get voir avec post quand ce sera fini
 Route::get('videos/allVideos', 'VideoController@allVideos')->name('videos.allVideos'); //FIXME pas bien avec get voir avec post quand ce sera fini
+
+//Progress bar:
+Route::get('video-upload', 'VideoController@create');
+Route::post('video-upload', 'VideoController@store')->name('store');
+
 Route::resource('videos', 'VideoController');
