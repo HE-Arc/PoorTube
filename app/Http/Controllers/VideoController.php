@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Video;
 use App\Like;
 use DateTime;
@@ -20,11 +21,9 @@ class VideoController extends Controller
    */
   public function index()
   {
-    //$videos = Video::all();//Video::latest()->paginate(5);
     $videos = DB::select('SELECT * from video order by created_at DESC');
-    // Pour la version pagination ajouter : {!! $videos->links() !!} dans index.blade.php après END VIDEOS
     $likes = Like::all();
-    return view('videos.index', compact(['videos', 'likes'])); //->with('i', (request()->input('page', 1)-1)*5);
+    return view('videos.index', compact(['videos', 'likes'])); 
   }
 
   /**
@@ -79,12 +78,12 @@ class VideoController extends Controller
     //return view('videos.show', compact($video));
   }
 
-  public function allVideos()
+  public function myVideos()
   {
     // $myVideos = DB::table('video')->where('fk_owner', (string)Auth::id());
     // die((string)$myVideos);
     if (Auth::check()) {
-      $videos = DB::select('select * from video where fk_owner = ?', [Auth::id()]);
+      $videos = DB::select('select * from video where fk_owner = ? order by created_at DESC', [Auth::id()]);
       $likes = Like::all();
       return view('videos.myvideo', compact(['videos', 'likes'])); //->with('i', (request()->input('page', 1)-1)*5);
     }
@@ -122,7 +121,7 @@ class VideoController extends Controller
   public function destroy(Video $video)
   {
     $video->delete();
-    $videos = DB::select('select * from video where fk_owner = ?', [Auth::id()]);
+    $videos = Video::where('fk_owner', Auth::id())->orderBy('created_at', 'desc');//DB::select('select * from video where fk_owner = ? order by created_at DESC', [Auth::id()]);
     $likes = Like::all();
     return view('videos.myvideo', compact(['videos', 'likes']))->with('success', 'Video deleted successfully');
   }
@@ -143,5 +142,30 @@ class VideoController extends Controller
 
     return back()->with('warning', 'you must be connected'); //redirect()->route('videos.index')->with('success', 'you must be connected');
 
+  }
+
+  public function storeComment(Request $request)
+  {
+    if(Auth::check())
+    {
+      $input['video_id'] = $request->video_id;
+      $input['user_id'] = Auth::id();
+      $input['user_name'] = Auth::user()->name;
+      $input['comment'] = $request->comment;
+
+      Comment::create($input);
+
+      return back()->with('success', 'commented successfully');
+    }
+
+    return back()->with('warning', 'you must be connected');
+  }
+
+  public function deleteComment($comment_id)
+  {
+    $comment = Comment::find($comment_id);
+    $comment->delete();
+    
+    return back()->with('success', 'Comment deleted successfully');
   }
 }

@@ -13,6 +13,11 @@
 </head>
 
 <body>
+  <?php
+
+  use Illuminate\Support\Facades\DB;
+
+  ?>
 
   <div class="container">
     <!-- START NAVBAR -->
@@ -97,6 +102,9 @@
                 {{ $video->author }}
               </p>
               <?php
+
+
+
               $exist = false;
               foreach ($likes as $like) {
                 if ($like->video_id == $video->id && $like->user_id == Auth::id()) {
@@ -118,7 +126,63 @@
                 </div>
               </Form>
             </div>
+
+
           </div>
+          <!-- NEW COMMENT -->
+          <div class="card article card-content">
+            <form action="{{ route('videos.storeComment')}}" method="POST">
+              {!! csrf_field() !!}
+              <article class="media">
+                <input type="hidden" name="video_id" value="{{ $video->id }}">
+                <div class="media-content">
+                  <p class="control">
+                    <input name="comment" class="input" placeholder="Add a comment..."></input>
+                  </p>
+                </div>
+                <div class="media-right media-bottom">
+                  <div class="level-item">
+                    <button type="submit" class="button is-info">Submit</button>
+                    <!-- <a class="button is-info">Submit</a> -->
+                  </div>
+                </div>
+              </article>
+            </form>
+
+            <br>
+            <!-- END NEW COMMENT -->
+
+            <!-- OLD COMMENT -->
+            <?php
+            $comments = DB::select('select * from comments where video_id = ? order by created_at DESC LIMIT 3', [$video->id])
+            ?>
+            @foreach($comments as $comment)
+
+            <article class="media">
+              <div class="media-left">
+                <p class="subtitle is-6 has-text-weight-semibold">
+                  {{ $comment->user_name }} : 
+                </p>
+              </div>
+              <div class="media-content">
+                <p class="control subtitle is-6">
+                  {{ $comment->comment }}
+                </p>
+              </div>
+              @if($comment->user_id == Auth::id())
+              <div class="media-right">
+                <a href="{{ route('videos.deleteComment', $comment->id)}}" class="card-footer-item has-text-danger">
+                  <i class="far fa-times-circle icon is-medium"></i>
+                </a>
+              </div>
+              @endif
+            </article>
+
+            @endforeach
+
+          </div>
+          <!-- END OLD COMMENT -->
+
         </div>
         <!-- END VIDEO DISPLAY -->
         @endforeach
