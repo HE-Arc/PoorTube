@@ -90,7 +90,7 @@ class VideoController extends Controller
   public function destroy(Video $video)
   {
     $video->delete();
-    $videos = Video::where('fk_owner', Auth::id())->orderBy('created_at', 'desc');
+    $videos = DB::select('select * from video where fk_owner = ? order by created_at DESC', [Auth::id()]);
     $likes = Like::all();
     return view('videos.myvideo', compact(['videos', 'likes']))->with('success', 'Video deleted successfully');
   }

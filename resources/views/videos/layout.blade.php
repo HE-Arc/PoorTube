@@ -109,11 +109,11 @@
                 if ($like->video_id == $video->id && $like->user_id == Auth::id()) {
                   $exist = true;
                 }
-                if($like->video_id == $video->id){
+                if ($like->video_id == $video->id) {
                   $nbLikes++;
                 }
               }
-              
+
               ?>
               <form id="destroy-form" action="{{ route('videos.destroy',$video->id) }}" method="POST">
                 <div class="card-footer">
@@ -123,7 +123,14 @@
                   <a href="{{ route('videos.like', $video->id) }}" class="card-footer-item is-size-3"><i class="far fa-heart icon is-medium"></i>&nbsp; {{$nbLikes}}</a>
                   @endif
 
-                  @yield('delete')
+                  @if($video->fk_owner == Auth::id())
+
+                  @csrf
+                  @method('DELETE')
+                  <a class="card-footer-item has-text-danger" onclick="closest('form').submit();">
+                    <i class="far fa-times-circle icon is-medium"></i>
+                  </a>
+                  @endif
 
                 </div>
               </Form>
@@ -156,14 +163,14 @@
 
             <!-- OLD COMMENT -->
             <?php
-            $comments = DB::select('select * from comments where video_id = ? order by created_at DESC LIMIT 3', [$video->id])
+              $comments = DB::select('select * from comments where video_id = ? order by created_at DESC LIMIT 3', [$video->id])
             ?>
             @foreach($comments as $comment)
 
             <article class="media">
               <div class="media-left">
                 <p class="subtitle is-6 has-text-weight-semibold">
-                  {{ $comment->user_name }} : 
+                  {{ $comment->user_name }} :
                 </p>
               </div>
               <div class="media-content">
