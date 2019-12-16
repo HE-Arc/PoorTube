@@ -179,14 +179,15 @@
                                         {{ $comment->comment }}
                                     </p>
                                 </div>
-                                @if($comment->user_id == Auth::id())
-                                <div class="media-right">
-                                    <a href="{{ route('videos.deleteComment', $comment->id)}}" class="card-footer-item has-text-danger">
-                                        <i class="far fa-times-circle icon is-medium"></i>
-                                    </a>
-                                </div>
-                                @endif
                             </div>
+                            @if($comment->user_id == Auth::id())
+                            <div class="media-right">
+                                <a href="{{ route('videos.deleteComment', $comment->id)}}" class="card-footer-item has-text-danger">
+                                    <i class="far fa-times-circle icon is-medium"></i>
+                                </a>
+                            </div>
+                            @endif
+
                         </article>
 
                         @endforeach
