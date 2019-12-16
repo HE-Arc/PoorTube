@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Model class for comments
+ */
 class Comment extends Model
 {
     protected $table = 'comments';

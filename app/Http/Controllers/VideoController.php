@@ -66,6 +66,10 @@ class VideoController extends Controller
     return redirect()->route('videos.index')->with('warning', 'You must be connected.');
   }
 
+/**
+ * Gets all videos of the logged user
+ * @return \Illuminate\Http\Response
+ */
   public function myVideos()
   {
     if (Auth::check()) {
@@ -91,6 +95,12 @@ class VideoController extends Controller
     return view('videos.myvideo', compact(['videos', 'likes']))->with('success', 'Video deleted successfully');
   }
 
+  /**
+   * Like or dislike a video
+   *
+   * @param $video_id the id of the video
+   * @return \Illuminate\Http\Response
+   */
   public function like($video_id)
   {
     if (Auth::check()) {
@@ -109,6 +119,11 @@ class VideoController extends Controller
 
   }
 
+  /**
+   * Create a comment and add it to DB
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
   public function storeComment(Request $request)
   {
     if(Auth::check())
@@ -130,6 +145,11 @@ class VideoController extends Controller
     return back()->with('warning', 'You must be connected.');
   }
 
+  /**
+   * Delete a comment from DB
+   * @param $comment_id the id of the comment
+   * @return \Illuminate\Http\Response
+   */
   public function deleteComment($comment_id)
   {
     $comment = Comment::find($comment_id);

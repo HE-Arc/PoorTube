@@ -1,3 +1,7 @@
+/**
+ * Scripts used for the upload of a video.
+ */
+
 // Display the name of the file when selected
 const fileInput = document.querySelector('#file input[type=file]');
 fileInput.onchange = () => {
@@ -7,10 +11,11 @@ fileInput.onchange = () => {
     }
 }
 
+// Progress bar with ajaxForm
 function validate(formData, jqForm, options) {
     var form = jqForm[0];
     if (!form.video.value || !form.name.value) {
-        if(!form.video.value){        
+        if(!form.video.value){
             document.getElementById("video").style = "border: 2px solid #ff7675";
         }
         if(!form.name.value){
@@ -20,9 +25,8 @@ function validate(formData, jqForm, options) {
     }
 
 }
-// Progress bar
-(function() {
 
+(function() {
 var bar = document.getElementById("bar");
 
 $('form').ajaxForm({

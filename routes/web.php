@@ -11,29 +11,21 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('index');
-// });
-
+// force https protocol
 if (App::environment('production')) {
     URL::forceScheme('https');
 }
 
 Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
-
-// Route::resource('/', 'VideoController');
-
-//Route::resource('likes', 'LikeController');
 Route::redirect('/', 'videos');
-Route::get('videos/{id}/like', 'VideoController@like')->name('videos.like'); //FIXME pas bien avec get voir avec post quand ce sera fini
+Route::get('videos/{id}/like', 'VideoController@like')->name('videos.like');
 
-Route::get('videos/myVideos', 'VideoController@myVideos')->name('videos.myVideos'); //FIXME pas bien avec get voir avec post quand ce sera fini
+Route::get('videos/myVideos', 'VideoController@myVideos')->name('videos.myVideos');
 Route::post('videos/storeComment', 'VideoController@storeComment')->name('videos.storeComment');
 Route::get('videos/{id}/deleteComment', 'VideoController@deleteComment')->name('videos.deleteComment');
 
-Route::get('videos/allVideos', 'VideoController@allVideos')->name('videos.allVideos'); //FIXME pas bien avec get voir avec post quand ce sera fini
+Route::get('videos/allVideos', 'VideoController@allVideos')->name('videos.allVideos');
 
 //Progress bar:
 Route::get('video-upload', 'VideoController@create');
