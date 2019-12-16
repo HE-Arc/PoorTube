@@ -1,3 +1,7 @@
 p, a {
     font-family: 'Poppins', sans-serif;
 }
+
+div.os-content-arrange {
+    max-height: 10px;
+}
