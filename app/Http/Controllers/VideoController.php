@@ -54,7 +54,7 @@ class VideoController extends Controller
 
     if (Auth::check()) {
       $input['name'] = $request->name;
-      $input['public'] = 1; //$request->input("public");
+      $input['public'] = 1;
       $input['fk_owner'] = Auth::id();
       $input['author'] = Auth::user()->name;
 
@@ -66,51 +66,16 @@ class VideoController extends Controller
     return redirect()->route('videos.index')->with('warning', 'You must be connected.');
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Video  $video
-   * @return \Illuminate\Http\Response
-   */
-  public function show(Video $video)
-  {
-    return redirect()->route('videos.index')->with('success', 'Video created successfully.');
-    //return view('videos.show', compact($video));
-  }
-
   public function myVideos()
   {
-    // $myVideos = DB::table('video')->where('fk_owner', (string)Auth::id());
-    // die((string)$myVideos);
     if (Auth::check()) {
       $videos = DB::select('select * from video where fk_owner = ? order by created_at DESC', [Auth::id()]);
       $likes = Like::all();
-      return view('videos.myvideo', compact(['videos', 'likes'])); //->with('i', (request()->input('page', 1)-1)*5);
+      return view('videos.myvideo', compact(['videos', 'likes']));
     }
 
     return redirect()->route('videos.index')->with('warning', 'You must be connected.');
   }
-
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\Video  $video
-   * @return \Illuminate\Http\Response
-   */
-  public function edit(Video $video)
-  {
-    //return view('videos.edit', compact($video));
-  }
-
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Video  $video
-   * @return \Illuminate\Http\Response
-   */
-  public function update(Request $request, Video $video)
-  { }
 
   /**
    * Remove the specified resource from storage.
@@ -121,7 +86,7 @@ class VideoController extends Controller
   public function destroy(Video $video)
   {
     $video->delete();
-    $videos = Video::where('fk_owner', Auth::id())->orderBy('created_at', 'desc');//DB::select('select * from video where fk_owner = ? order by created_at DESC', [Auth::id()]);
+    $videos = Video::where('fk_owner', Auth::id())->orderBy('created_at', 'desc');
     $likes = Like::all();
     return view('videos.myvideo', compact(['videos', 'likes']))->with('success', 'Video deleted successfully');
   }
@@ -140,7 +105,7 @@ class VideoController extends Controller
       }
     }
 
-    return back()->with('warning', 'You must be connected.'); //redirect()->route('videos.index')->with('success', 'you must be connected');
+    return back()->with('warning', 'You must be connected.');
 
   }
 

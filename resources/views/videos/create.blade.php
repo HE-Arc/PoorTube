@@ -32,7 +32,7 @@
                 <div class="field">
                     <label class="label">Name</label>
                     <div class="control">
-                        <input class="input" type="text" placeholder="Text input" name="name">
+                        <input class="input" type="text" placeholder="Text input" name="name" id="name">
                     </div>
                 </div>
                 <div class="field">
@@ -41,7 +41,7 @@
                         <div id="file" class="file has-name">
                             <label class="file-label">
                                 <input class="file-input" type="file" name="video">
-                                <span class="file-cta">
+                                <span class="file-cta" id="video">
                                     <span class="file-icon">
                                         <i class="fas fa-upload"></i>
                                     </span>
@@ -59,14 +59,7 @@
                         0%
                     </progress>
                 </div>
-                <div class="field">
-                    <div class="control">
-                        <label class="checkbox">
-                            <input type="checkbox" name="public">
-                            Public
-                        </label>
-                    </div>
-                </div>
+                <br>
                 <div class="field is-grouped">
                     <div class="control">
                         <button type="submit" class="button is-link">Submit</button>

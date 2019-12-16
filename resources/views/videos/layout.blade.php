@@ -103,23 +103,25 @@
               </p>
               <?php
 
-
-
               $exist = false;
+              $nbLikes = 0;
               foreach ($likes as $like) {
                 if ($like->video_id == $video->id && $like->user_id == Auth::id()) {
                   $exist = true;
                 }
+                if($like->video_id == $video->id){
+                  $nbLikes++;
+                }
               }
+              
               ?>
               <form id="destroy-form" action="{{ route('videos.destroy',$video->id) }}" method="POST">
                 <div class="card-footer">
                   @if ( $exist == true )
-                  <a href="{{ route('videos.like', $video->id) }}" class="card-footer-item"><i class="fas fa-heart icon is-medium"></i></a>
+                  <a href="{{ route('videos.like', $video->id) }}" class="card-footer-item is-size-3"><i class="fas fa-heart icon is-medium"></i>&nbsp; {{$nbLikes}}</a>
                   @else
-                  <a href="{{ route('videos.like', $video->id) }}" class="card-footer-item"><i class="far fa-heart icon is-medium"></i></a>
+                  <a href="{{ route('videos.like', $video->id) }}" class="card-footer-item is-size-3"><i class="far fa-heart icon is-medium"></i>&nbsp; {{$nbLikes}}</a>
                   @endif
-                  <a href="" class="card-footer-item"><i class="far fa-comment icon is-medium"></i></a>
 
                   @yield('delete')
 

@@ -7,12 +7,26 @@ fileInput.onchange = () => {
     }
 }
 
+function validate(formData, jqForm, options) {
+    var form = jqForm[0];
+    if (!form.video.value || !form.name.value) {
+        if(!form.video.value){        
+            document.getElementById("video").style = "border: 2px solid #ff7675";
+        }
+        if(!form.name.value){
+            document.getElementById("name").style = "border: 2px solid #ff7675";
+        }
+        return false;
+    }
+
+}
 // Progress bar
 (function() {
 
 var bar = document.getElementById("bar");
 
 $('form').ajaxForm({
+    beforeSubmit: validate,
     beforeSend: function() {
         var posterValue = $('input[name=video]').fieldValue();
         bar.style = "display:online";
