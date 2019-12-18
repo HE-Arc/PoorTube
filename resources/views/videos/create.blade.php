@@ -40,7 +40,7 @@
                         <strong>Video:</strong>
                         <div id="file" class="file has-name">
                             <label class="file-label">
-                                <input class="file-input" type="file" name="video">
+                                <input class="file-input" type="file" name="video" id="video_input">
                                 <span class="file-cta" id="video">
                                     <span class="file-icon">
                                         <i class="fas fa-upload"></i>

@@ -10,4 +10,4 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-*.mp4
+/public/videos-gallery

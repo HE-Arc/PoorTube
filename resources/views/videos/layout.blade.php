@@ -115,7 +115,7 @@
                             }
 
                             ?>
-                            <form id="destroy-form" action="{{ route('videos.destroy',$video->id) }}" method="POST">
+                            <form action="{{ route('videos.destroy',$video->id) }}" method="POST">
                                 <div class="card-footer">
                                     @if ( $exist == true )
                                     <a href="{{ route('videos.like', $video->id) }}" class="card-footer-item is-size-3"><i class="fas fa-heart icon is-medium"></i>&nbsp; {{$nbLikes}}</a>
