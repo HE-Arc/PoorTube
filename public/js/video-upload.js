@@ -26,7 +26,7 @@ function validate(formData, jqForm, options) {
         return false;
     }
     else if(!allowedExtensions.exec(file.value)){
-        document.getElementById("video").style = "border: 2px solid #ff7675";
+        document.getElementById("input_file_name").style = "border: 2px solid #ff7675";
         return false;
     }
 

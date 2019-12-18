@@ -49,7 +49,7 @@
                                         Choose a file…
                                     </span>
                                 </span>
-                                <span class="file-name">No file selected</span>
+                                <span class="file-name" id="input_file_name">No file selected</span>
                             </label>
                         </div>
                     </div>
