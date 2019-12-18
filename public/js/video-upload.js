@@ -26,7 +26,7 @@ function validate(formData, jqForm, options) {
         return false;
     }
     else if(!allowedExtensions.exec(file.value)){
-        alert("alert !");
+        file.style = "border: 2px solid #ff7675";
         return false;
     }
 
