@@ -18,7 +18,7 @@ function validate(formData, jqForm, options) {
     var allowedExtensions = /(.+\.mp4|.+\.mkv|.+\.webm|.+\.ogg|.+\.ogv)$/ig;
     if (!form.video.value || !form.name.value) {
         if(!form.video.value){
-            file.style = "border: 2px solid #ff7675";
+            document.getElementById("video").style = "border: 2px solid #ff7675";
         }
         if(!form.name.value){
             document.getElementById("name").style = "border: 2px solid #ff7675";
@@ -26,7 +26,7 @@ function validate(formData, jqForm, options) {
         return false;
     }
     else if(!allowedExtensions.exec(file.value)){
-        file.style = "border: 2px solid #ff7675";
+        document.getElementById("video").style = "border: 2px solid #ff7675";
         return false;
     }
 
