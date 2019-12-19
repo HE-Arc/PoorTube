@@ -25,7 +25,6 @@ Route::get('videos/myVideos', 'VideoController@myVideos')->name('videos.myVideos
 Route::post('videos/storeComment', 'VideoController@storeComment')->name('videos.storeComment');
 Route::get('videos/{id}/deleteComment', 'VideoController@deleteComment')->name('videos.deleteComment');
 
-Route::get('videos/allVideos', 'VideoController@allVideos')->name('videos.allVideos');
 
 //Progress bar:
 Route::get('video-upload', 'VideoController@create');
